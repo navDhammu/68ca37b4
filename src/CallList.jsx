@@ -6,7 +6,7 @@ import { ArrowLeftCircleIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 
 const BREAKPOINT_WIDTH = 640;
 
-export default function CallList({ callList, heading, handleArchive }) {
+export default function CallList({ callList, heading, onArchive }) {
    const [selectedCallId, setSelectedCallId] = useState(null);
    const windowWidth = useWindowWidth();
    const selectedCall = callList.find((call) => call.id === selectedCallId);
@@ -15,7 +15,7 @@ export default function CallList({ callList, heading, handleArchive }) {
    return selectedCall && windowWidth < BREAKPOINT_WIDTH ? (
       <CallDetails
          details={selectedCall}
-         handleArchive={handleArchive}
+         onArchive={onArchive}
          hideIconBtn={
             <button onClick={hideDetails}>
                <ArrowLeftCircleIcon className='size-6' />
@@ -39,7 +39,7 @@ export default function CallList({ callList, heading, handleArchive }) {
          </div>
          <CallDetails
             details={selectedCall}
-            handleArchive={handleArchive}
+            onArchive={onArchive}
             hideIconBtn={
                <button onClick={hideDetails}>
                   <EyeSlashIcon className='size-6' />

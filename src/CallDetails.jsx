@@ -1,4 +1,5 @@
 import React from 'react';
+import api from './api';
 
 function formatSeconds(seconds) {
    const minutes = Math.floor(seconds / 60);
@@ -8,10 +9,11 @@ function formatSeconds(seconds) {
    return formattedMinutes + formattedSeconds;
 }
 
-export default function CallDetails({ details, hideIconBtn, handleArchive }) {
+export default function CallDetails({ details, hideIconBtn, onArchive }) {
    if (!details) return null;
 
    const {
+      id,
       direction,
       from,
       to,
@@ -21,6 +23,11 @@ export default function CallDetails({ details, hideIconBtn, handleArchive }) {
       call_type,
       duration,
    } = details;
+
+   const handleArchive = async () => {
+      const response = await api.changeArchiveStatus(id, !is_archived);
+      if (response.ok) onArchive(details);
+   };
 
    return (
       <div className='flex-col items-center justify-center mt-4 md:mt-0 p-2'>
@@ -40,7 +47,7 @@ export default function CallDetails({ details, hideIconBtn, handleArchive }) {
          <Detail label='via' value={via} />
          <div className='text-center mt-3'>
             <button
-               onClick={() => handleArchive(details)}
+               onClick={handleArchive}
                type='button'
                className=' text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-600 dark:focus:ring-gray-700'
             >
