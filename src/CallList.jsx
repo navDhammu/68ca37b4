@@ -22,17 +22,19 @@ export default function CallList({ callList, heading }) {
          }
       />
    ) : (
-      <div className='container mx-auto max-w-xl flex '>
-         <h1>{heading}</h1>
-         <ul>
-            {callList.map((details) => (
-               <CallListItem
-                  key={details.id}
-                  details={details}
-                  selectCall={() => setSelectedCallId(details.id)}
-               />
-            ))}
-         </ul>
+      <div className='flex justify-center md:container mx-auto max-w-xl my-4 gap-8'>
+         <div>
+            <h1 className='text-xl text-center'>{heading}</h1>
+            <ul>
+               {callList.map((details) => (
+                  <CallListItem
+                     key={details.id}
+                     details={details}
+                     selectCall={() => setSelectedCallId(details.id)}
+                  />
+               ))}
+            </ul>
+         </div>
          <CallDetails
             details={selectedCall}
             hideIconBtn={

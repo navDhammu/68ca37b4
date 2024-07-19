@@ -9,10 +9,10 @@ export default function CallDetails({ details, hideIconBtn }) {
    const { direction, from, to, is_archived, created_at } = details;
 
    return (
-      <div className=''>
+      <div className='mt-4 md:mt-0'>
          <div className='flex gap-2 justify-center items-center'>
             {hideIconBtn}
-            <h1 className='text-2xl'> Call Details </h1>
+            <h1 className='text-xl'> Call Details </h1>
          </div>
          <div>{new Date(created_at).toLocaleDateString()}</div>
          <div className='text-gray-400'> {direction} </div>
