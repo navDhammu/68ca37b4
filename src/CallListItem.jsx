@@ -18,10 +18,15 @@ const getTime = (dateString) => {
    });
 };
 
-export default function CallListItem({ details, selectCall }) {
+export default function CallListItem({ details, selectCall, isSelected }) {
    const { direction, call_type, from, via, created_at } = details;
+
    return (
-      <li className={`max-w-sm mx-auto gap-3 p-4 flex items-center mb-4`}>
+      <li
+         className={`${
+            isSelected ? 'border-green-500 border-2 bg-green-50 rounded-md' : ''
+         } max-w-sm mx-auto gap-3 p-4 flex items-center mb-4`}
+      >
          <div>
             {direction === 'inbound' ? (
                <PhoneArrowDownLeftIcon

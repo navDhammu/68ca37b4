@@ -30,6 +30,7 @@ export default function CallList({ callList, heading }) {
                   <CallListItem
                      key={details.id}
                      details={details}
+                     isSelected={selectedCallId === details.id}
                      selectCall={() => setSelectedCallId(details.id)}
                   />
                ))}
