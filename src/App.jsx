@@ -2,22 +2,24 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import Header from './Header/index.jsx';
-import CallListItem from './CallListItem.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import CallList from './CallList.jsx';
 
 const App = () => {
-   const [callList, setCallList] = useState([]);
+   const [allCalls, setAllCalls] = useState([]);
+
+   const archivedCalls = allCalls.filter((call) => call.is_archived);
 
    useEffect(() => {
-      const getCallList = async () => {
+      const getAllCalls = async () => {
          const response = await fetch(
             'https://aircall-backend.onrender.com/activities'
          );
          const data = await response.json();
-         setCallList(data);
+         setAllCalls(data);
       };
 
-      getCallList();
+      getAllCalls();
    }, []);
 
    return (
@@ -26,16 +28,10 @@ const App = () => {
             <Header />
             <Switch>
                <Route exact path='/'>
-                  <div className='container mx-auto max-w-xl'>
-                     <ul>
-                        {callList.map(({ id, ...callDetails }) => (
-                           <CallListItem key={id} {...callDetails} />
-                        ))}
-                     </ul>
-                  </div>
+                  <CallList heading='All Calls' callList={allCalls} />
                </Route>
                <Route path='/archived'>
-                  <div>archived calls</div>
+                  <CallList heading='Archived Calls' callList={archivedCalls} />
                </Route>
             </Switch>
          </Router>
