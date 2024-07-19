@@ -56,7 +56,12 @@ function Layout({ callList, selectedCall, onHideSelected }) {
    return (
       <div className='flex-col sm:flex-row gap-4'>
          <CallList heading='All Calls' callList={callList} />
-         <CallDetails {...selectedCall} onHideDetails={onHideSelected} />
+         {selectedCall && (
+            <CallDetails
+               details={selectedCall}
+               onHideDetails={onHideSelected}
+            />
+         )}
       </div>
    );
 }
