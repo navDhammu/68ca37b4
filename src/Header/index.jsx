@@ -16,7 +16,7 @@ export default function Header() {
                      icon: <PhoneIcon className='size-5' />,
                   },
                   {
-                     to: '/',
+                     to: '/archived',
                      name: 'Archived Calls',
                      icon: <ArchiveBoxIcon className='size-5' />,
                   },
