@@ -18,13 +18,8 @@ const getTime = (dateString) => {
    });
 };
 
-export default function CallListItem({
-   direction,
-   call_type,
-   from,
-   via,
-   created_at,
-}) {
+export default function CallListItem({ details, selectCall }) {
+   const { direction, call_type, from, via, created_at } = details;
    return (
       <li className={`max-w-sm mx-auto gap-3 p-4 flex items-center mb-4`}>
          <div>
@@ -45,7 +40,10 @@ export default function CallListItem({
          <span className='text-xs text-gray-400 shrink-0'>
             {getTime(created_at)}
          </span>
-         <button className='flex items-center justify-center gap-1 text-sm  text-gray-400'>
+         <button
+            onClick={selectCall}
+            className='flex items-center justify-center gap-1 text-sm  text-gray-400'
+         >
             <ArrowRightCircleIcon className='size-7' />
          </button>
       </li>

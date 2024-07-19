@@ -4,13 +4,10 @@ import ReactDOM from 'react-dom';
 import Header from './Header/index.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CallList from './CallList.jsx';
-import CallDetails from './CallDetails.jsx';
 
 export default function App() {
    const [allCalls, setAllCalls] = useState([]);
-   const [selectedCallId, setSelectedCallId] = useState(null);
 
-   const selectedCall = allCalls.find((call) => call.id === selectedCallId?.id);
    const archivedCalls = allCalls.filter((call) => call.is_archived);
 
    useEffect(() => {
@@ -31,18 +28,10 @@ export default function App() {
             <Header />
             <Switch>
                <Route exact path='/'>
-                  <Layout
-                     callList={allCalls}
-                     selectedCall={selectedCall}
-                     onHideSelected={() => setSelectedCallId(null)}
-                  />
+                  <CallList heading='All Calls' callList={allCalls} />
                </Route>
                <Route path='/archived'>
-                  <Layout
-                     callList={archivedCalls}
-                     selectedCall={selectedCall}
-                     onHideSelected={() => setSelectedCallId(null)}
-                  />
+                  <CallList heading='Archived Calls' callList={archivedCalls} />
                </Route>
             </Switch>
          </Router>
@@ -51,17 +40,3 @@ export default function App() {
 }
 
 ReactDOM.render(<App />, document.getElementById('app'));
-
-function Layout({ callList, selectedCall, onHideSelected }) {
-   return (
-      <div className='flex-col sm:flex-row gap-4'>
-         <CallList heading='All Calls' callList={callList} />
-         {selectedCall && (
-            <CallDetails
-               details={selectedCall}
-               onHideDetails={onHideSelected}
-            />
-         )}
-      </div>
-   );
-}

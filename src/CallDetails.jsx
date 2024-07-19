@@ -3,21 +3,15 @@ import React from 'react';
 import useWindowWidth from './useWindowWidth';
 import { EyeSlashIcon } from '@heroicons/react/24/outline';
 
-export default function CallDetails({ details, onHideDetails }) {
+export default function CallDetails({ details, hideIconBtn }) {
+   if (!details) return null;
+
    const { direction, from, to, is_archived, created_at } = details;
-   const windowWidth = useWindowWidth();
 
    return (
       <div className=''>
          <div className='flex gap-2 justify-center items-center'>
-            {windowWidth > 500 ? (
-               <EyeSlashIcon className='size-6' onClick={onHideDetails} />
-            ) : (
-               <ArrowLeftCircleIcon
-                  className='size-6'
-                  onClick={onHideDetails}
-               />
-            )}
+            {hideIconBtn}
             <h1 className='text-2xl'> Call Details </h1>
          </div>
          <div>{new Date(created_at).toLocaleDateString()}</div>
