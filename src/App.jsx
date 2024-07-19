@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
-import Header from './Header.jsx';
+import Header from './Header/index.jsx';
 import CallListItem from './CallListItem.jsx';
 
 const App = () => {
