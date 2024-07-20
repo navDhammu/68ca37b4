@@ -33,7 +33,7 @@ export default function CallListItem({
 
          <button
             onClick={() => onSelectCall(call.id)}
-            className={`w-full h-20 flex items-end gap-4 p-3 cursor-pointer relative overflow-hidden transition duration-300 transform border rounded-md shadow-sm hover:scale-105 group hover:shadow-xl ${
+            className={`w-full sm:h-20 flex items-end gap-4 p-3 cursor-pointer relative overflow-hidden transition duration-300 transform border rounded-md shadow-sm hover:scale-105 group hover:shadow-xl ${
                isSelected
                   ? 'scale-105 border-green-400 bg-green-50 shadow-xl'
                   : ''
@@ -51,28 +51,21 @@ export default function CallListItem({
                )}
             </div>
 
-            <div className='self-center text-left text-gray-900 text-sm font-medium leading-snug'>
-               <div className='mb-1'>
-                  <span className='text-gray-400 italic'>From</span>
-                  <span className='ml-1 mr-3 text-gray-800 font-semibold'>
-                     {call.from}
-                  </span>
-               </div>
+            <div className='flex flex-col text-left items-start sm:flex-row sm:justify-between flex-1 text-gray-900 text-sm font-medium leading-snug'>
                <div>
-                  <span className=' text-gray-400 italic'>To</span>
-                  <span className='ml-1 mr-3'>{call.to}</span>
+                  <div className='mb-1'>
+                     <span className='text-gray-400 italic'>From</span>
+                     <span className='ml-1 mr-3 text-gray-800 font-semibold'>
+                        {call.from}
+                     </span>
+                  </div>
+                  <div>
+                     <span className=' text-gray-400 italic'>To</span>
+                     <span className='ml-1 mr-3'>{call.to}</span>
+                  </div>
                </div>
-            </div>
-            <div className='flex-1 text-right'>
-               {call.is_archived && (
-                  <span
-                     className={`px-2.5 py-1 text-xs bg-gray-100 text-gray-600 rounded-full text-center font-medium leading-4`}
-                  >
-                     archived
-                  </span>
-               )}
                <span
-                  className={`px-2.5 py-1 mx-2 text-xs ${
+                  className={`self-end px-2.5 py-1 text-xs ${
                      call.call_type === 'answered'
                         ? 'bg-emerald-50 text-emerald-600'
                         : 'bg-red-50 text-red-600'

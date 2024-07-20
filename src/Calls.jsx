@@ -12,10 +12,16 @@ export default function Calls({
 }) {
    const [selectedCallId, setSelectedCallId] = useState(null);
    const [searchInput, setSearchInput] = useState('');
+   const [sortByDate, setSortByDate] = useState('ascending');
 
    const selectedCall = callList.find((call) => call.id === selectedCallId);
    const filteredCallList = callList.filter((call) =>
       call.from.toString().includes(searchInput)
+   );
+   const sortedCallList = filteredCallList.sort((a, b) =>
+      sortByDate === 'ascending'
+         ? new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+         : new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
    );
 
    return (
@@ -24,10 +30,12 @@ export default function Calls({
             <CallListHeader
                heading={heading}
                headerBtn={headerBtn}
+               sortByDate={sortByDate}
+               onSortByDateChange={(e) => setSortByDate(e.target.value)}
                onSearchInput={(e) => setSearchInput(e.target.value)}
             />
             <CallList
-               callList={filteredCallList}
+               callList={sortedCallList}
                onSelectCall={(id) => setSelectedCallId(id)}
                selectedCallId={selectedCallId}
                isLoadingCalls={isLoadingCalls}
