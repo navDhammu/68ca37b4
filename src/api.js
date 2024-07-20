@@ -1,4 +1,5 @@
 export default {
+   // change the archive status of an individual call
    changeArchiveStatus: async (callId, status) => {
       const body = JSON.stringify({ is_archived: status });
       return fetch(
@@ -12,14 +13,16 @@ export default {
          }
       );
    },
-   archiveAll(calls) {
-      return Promise.all(
-         calls.map((call) => this.changeArchiveStatus(call.id, true))
-      );
+   archiveSingleCall(call) {
+      return this.changeArchiveStatus(call.id, true);
    },
-   unarchiveAll(calls) {
-      return Promise.all(
-         calls.map((call) => this.changeArchiveStatus(call.id, false))
-      );
+   unarchiveSingleCall(call) {
+      return this.changeArchiveStatus(call.id, false);
+   },
+   archiveMultipleCalls(calls) {
+      return Promise.all(calls.map((call) => this.archiveSingleCall(call)));
+   },
+   unarchiveMultipleCalls(calls) {
+      return Promise.all(calls.map((call) => this.unarchiveSingleCall(call)));
    },
 };
