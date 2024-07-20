@@ -25,21 +25,33 @@ export default function App() {
       getAllCalls();
    }, []);
 
-   const toggleCallArchive = async (call) => {
+   const changeCallArchiveStatus = (call, status) => {
       setAllCalls(
          allCalls.map((prevCall) => {
             if (prevCall.id === call.id) {
-               prevCall.is_archived = !prevCall.is_archived;
+               prevCall.is_archived = status;
             }
             return prevCall;
          })
       );
    };
 
-   const toggleAllCallsArchive = (archiveStatus) => () => {
+   const archiveSingleCall = (call) => changeCallArchiveStatus(call, true);
+   const unarchiveSingleCall = (call) => changeCallArchiveStatus(call, false);
+
+   const archiveAllCalls = () => {
       setAllCalls(
          allCalls.map((call) => {
-            call.is_archived = archiveStatus;
+            call.is_archived = true;
+            return call;
+         })
+      );
+   };
+
+   const unarchiveAllCalls = () => {
+      setAllCalls(
+         allCalls.map((call) => {
+            call.is_archived = false;
             return call;
          })
       );
@@ -49,8 +61,8 @@ export default function App() {
       <>
          <Router>
             <Header
-               onArchiveAll={toggleAllCallsArchive(true)}
-               onUnarchiveAll={toggleAllCallsArchive(false)}
+               onArchiveAll={archiveAllCalls}
+               onUnarchiveAll={unarchiveAllCalls}
                activityFeedCalls={activityFeedCalls}
                archivedCalls={archivedCalls}
             />
@@ -59,14 +71,16 @@ export default function App() {
                   <CallList
                      heading='All Calls'
                      callList={activityFeedCalls}
-                     toggleCallArchive={toggleCallArchive}
+                     onArchiveCall={archiveSingleCall}
+                     onUnarchiveCall={unarchiveSingleCall}
                   />
                </Route>
                <Route path='/archived'>
                   <CallList
                      heading='Archived Calls'
                      callList={archivedCalls}
-                     toggleCallArchive={toggleCallArchive}
+                     onArchiveCall={archiveSingleCall}
+                     onUnarchiveCall={unarchiveSingleCall}
                   />
                </Route>
             </Switch>

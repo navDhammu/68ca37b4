@@ -16,13 +16,13 @@ export default function Header({
    archivedCalls,
 }) {
    const { pathname } = useLocation();
-   console.log(pathname);
+
    const handleArchiveBtnClick = async () => {
       if (pathname === '/') {
-         await api.archiveAll(activityFeedCalls);
+         await api.archiveMultipleCalls(activityFeedCalls);
          onArchiveAll();
       } else if (pathname === '/archived') {
-         await api.unarchiveAll(archivedCalls);
+         await api.unarchiveMultipleCalls(archivedCalls);
          onUnarchiveAll();
       }
    };
