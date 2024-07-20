@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import api from './api.js';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import Button from './Button.jsx';
+import notifications from './notifications.js';
 
 export function formatSeconds(seconds) {
    const minutes = Math.floor(seconds / 60);
@@ -32,10 +33,17 @@ export default function CallDetails({
    const [isLoading, setIsLoading] = useState(false);
 
    const handleArchiveBtnClick = async () => {
-      setIsLoading(true);
-      await api.toggleArchiveStatus(details);
-      onToggleArchiveStatus(details);
-      setIsLoading(false);
+      try {
+         setIsLoading(true);
+         await api.toggleArchiveStatus(details);
+         onToggleArchiveStatus(details);
+         setIsLoading(false);
+         details.is_archived
+            ? notifications.success.archive()
+            : notifications.success.unarchive();
+      } catch (error) {
+         notifications.error();
+      }
    };
 
    return (

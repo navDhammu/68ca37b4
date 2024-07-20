@@ -5,6 +5,8 @@ import Header from './Header/index.jsx';
 import api from './api.js';
 import Calls from './Calls.jsx';
 import Button from './Button.jsx';
+import { Toaster } from 'react-hot-toast';
+import notifications from './notifications.js';
 
 export default function App() {
    const [selectedTab, setSelectedTab] = useState('activity-feed');
@@ -16,8 +18,12 @@ export default function App() {
 
    useEffect(() => {
       (async function () {
-         const calls = await api.getAllCalls();
-         setAllCalls(calls);
+         try {
+            const calls = await api.getAllCalls();
+            setAllCalls(calls);
+         } catch (error) {
+            notifications.error();
+         }
       })();
    }, []);
 
@@ -35,27 +41,37 @@ export default function App() {
    const onSelectTab = (tab) => setSelectedTab(tab);
 
    const handleArchiveAll = async () => {
-      setIsPendingArchive(true);
-      await api.archiveMultipleCalls(activityFeedCalls);
-      setAllCalls(
-         allCalls.map((call) => {
-            call.is_archived = true;
-            return call;
-         })
-      );
-      setIsPendingArchive(false);
+      try {
+         setIsPendingArchive(true);
+         await api.archiveMultipleCalls(activityFeedCalls);
+         setAllCalls(
+            allCalls.map((call) => {
+               call.is_archived = true;
+               return call;
+            })
+         );
+         setIsPendingArchive(false);
+         notifications.success.archiveAll();
+      } catch (error) {
+         notifications.error();
+      }
    };
 
    const handleUnarchiveAll = async () => {
-      setIsPendingArchive(true);
-      await api.unarchiveMultipleCalls(archivedCalls);
-      setAllCalls(
-         allCalls.map((call) => {
-            call.is_archived = false;
-            return call;
-         })
-      );
-      setIsPendingArchive(false);
+      try {
+         setIsPendingArchive(true);
+         await api.unarchiveMultipleCalls(archivedCalls);
+         setAllCalls(
+            allCalls.map((call) => {
+               call.is_archived = false;
+               return call;
+            })
+         );
+         setIsPendingArchive(false);
+         notifications.success.unarchiveAll();
+      } catch (error) {
+         notifications.error();
+      }
    };
 
    return (
@@ -101,6 +117,13 @@ export default function App() {
                }
             />
          )}
+         <Toaster
+            position='bottom-right'
+            toastOptions={{
+               className:
+                  'bg-teal-100 border border-teal-200 font-semibold text-teal-800 rounded-lg',
+            }}
+         />
       </>
    );
 }
