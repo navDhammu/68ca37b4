@@ -6,6 +6,7 @@ export default function Calls({
    heading,
    headerBtn,
    callList,
+   isLoadingCalls,
    onToggleArchiveStatus,
 }) {
    const [selectedCallId, setSelectedCallId] = useState(null);
@@ -24,6 +25,7 @@ export default function Calls({
                selectCall={selectCall}
                selectedCallId={selectedCallId}
                callList={callList}
+               isLoadingCalls={isLoadingCalls}
             />
          </div>
          <CallDetails

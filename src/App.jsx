@@ -7,10 +7,12 @@ import Calls from './Calls.jsx';
 import Button from './Button.jsx';
 import { Toaster } from 'react-hot-toast';
 import notifications from './notifications.js';
+import LoadingSpinner from './LoadingSpinner.jsx';
 
 export default function App() {
    const [selectedTab, setSelectedTab] = useState('activity-feed');
    const [allCalls, setAllCalls] = useState([]);
+   const [isLoadingCalls, setIsLoadingCalls] = useState(true);
    const [isPendingArchive, setIsPendingArchive] = useState(false);
 
    const activityFeedCalls = allCalls.filter((call) => !call.is_archived);
@@ -23,6 +25,8 @@ export default function App() {
             setAllCalls(calls);
          } catch (error) {
             notifications.error();
+         } finally {
+            setIsLoadingCalls(false);
          }
       })();
    }, []);
@@ -86,6 +90,7 @@ export default function App() {
             <Calls
                heading='Activity Feed'
                callList={activityFeedCalls}
+               isLoadingCalls={isLoadingCalls}
                onToggleArchiveStatus={onToggleArchiveStatus}
                headerBtn={
                   activityFeedCalls.length ? (

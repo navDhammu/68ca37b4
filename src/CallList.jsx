@@ -3,6 +3,7 @@ import {
    PhoneArrowUpRightIcon,
 } from '@heroicons/react/24/solid';
 import { ChevronRightIcon } from '@heroicons/react/24/outline';
+import LoadingSpinner from './LoadingSpinner.jsx';
 
 const phoneIconColor = {
    answered: 'text-green-500',
@@ -17,7 +18,13 @@ const getTime = (dateString) => {
    });
 };
 
-export default function CallList({ callList, selectedCallId, selectCall }) {
+export default function CallList({
+   callList,
+   selectedCallId,
+   selectCall,
+   isLoadingCalls,
+}) {
+   if (isLoadingCalls) return <LoadingSpinner />;
    if (!callList.length)
       return <div className='text-gray-500 mt-36'> No calls to display</div>;
 
