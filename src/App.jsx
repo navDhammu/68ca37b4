@@ -4,10 +4,12 @@ import ReactDOM from 'react-dom';
 import Header from './Header/index.jsx';
 import api from './api.js';
 import Calls from './Calls.jsx';
+import Button from './Button.jsx';
 
 export default function App() {
    const [selectedTab, setSelectedTab] = useState('activity-feed');
    const [allCalls, setAllCalls] = useState([]);
+   const [isPendingArchive, setIsPendingArchive] = useState(false);
 
    const activityFeedCalls = allCalls.filter((call) => !call.is_archived);
    const archivedCalls = allCalls.filter((call) => call.is_archived);
@@ -33,6 +35,7 @@ export default function App() {
    const onSelectTab = (tab) => setSelectedTab(tab);
 
    const handleArchiveAll = async () => {
+      setIsPendingArchive(true);
       await api.archiveMultipleCalls(activityFeedCalls);
       setAllCalls(
          allCalls.map((call) => {
@@ -40,8 +43,11 @@ export default function App() {
             return call;
          })
       );
+      setIsPendingArchive(false);
    };
+
    const handleUnarchiveAll = async () => {
+      setIsPendingArchive(true);
       await api.unarchiveMultipleCalls(archivedCalls);
       setAllCalls(
          allCalls.map((call) => {
@@ -49,6 +55,7 @@ export default function App() {
             return call;
          })
       );
+      setIsPendingArchive(false);
    };
 
    return (
@@ -66,13 +73,13 @@ export default function App() {
                onToggleArchiveStatus={onToggleArchiveStatus}
                headerBtn={
                   activityFeedCalls.length ? (
-                     <button
+                     <Button
+                        isLoading={isPendingArchive}
+                        disabled={isPendingArchive}
                         onClick={handleArchiveAll}
-                        type='button'
-                        class='py-2.5 px-6 text-sm rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
                      >
                         Archive all
-                     </button>
+                     </Button>
                   ) : null
                }
             />
@@ -83,13 +90,13 @@ export default function App() {
                onToggleArchiveStatus={onToggleArchiveStatus}
                headerBtn={
                   archivedCalls.length ? (
-                     <button
+                     <Button
+                        isLoading={isPendingArchive}
+                        disabled={isPendingArchive}
                         onClick={handleUnarchiveAll}
-                        type='button'
-                        class='py-2.5 px-6 text-sm rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
                      >
                         Unarchive all
-                     </button>
+                     </Button>
                   ) : null
                }
             />

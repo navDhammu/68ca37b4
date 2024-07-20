@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import api from './api.js';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
+import Button from './Button.jsx';
 
 export function formatSeconds(seconds) {
    const minutes = Math.floor(seconds / 60);
@@ -28,9 +29,13 @@ export default function CallDetails({
       duration,
    } = details;
 
+   const [isLoading, setIsLoading] = useState(false);
+
    const handleArchiveBtnClick = async () => {
+      setIsLoading(true);
       await api.toggleArchiveStatus(details);
       onToggleArchiveStatus(details);
+      setIsLoading(false);
    };
 
    return (
@@ -62,13 +67,13 @@ export default function CallDetails({
                label='status'
                value='archived'
                rightSection={
-                  <button
-                     type='button'
+                  <Button
+                     disabled={isLoading}
+                     isLoading={isLoading}
                      onClick={handleArchiveBtnClick}
-                     class='py-2.5 px-6 text-sm bg-amber-50 text-amber-500 rounded-full cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-100 hover:text-amber-700'
                   >
                      {is_archived ? 'unarchive call' : 'archive call'}
-                  </button>
+                  </Button>
                }
             />
          </div>
