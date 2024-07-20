@@ -48,7 +48,7 @@ export default function CallDetails({
    };
 
    return (
-      <div className='fixed sm:px-10 sm:p-10 md:p-20 lg:p-0 overflow-hidden w-full h-screen top-0 left-0 bg-white lg:relative flex-1 flex-col items-center mt-4 md:mt-0 p-2'>
+      <div className='fixed lg:sticky w-full h-screen top-0 left-0 bg-white sm:px-10 sm:p-10 md:p-20 lg:p-0 overflow-hidden  flex-1 flex-col items-center mt-4 md:mt-0 p-2'>
          <div className='flex justify-between p-2 h-16 items-start'>
             <div className='flex gap-4 justify-center items-center'>
                <button

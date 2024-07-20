@@ -14,7 +14,7 @@ export default function Calls({
    const selectCall = (id) => setSelectedCallId(id);
 
    return (
-      <div className='lg:flex md:gap-6 lg:gap-10 px-4 py-4 mx-auto sm:max-w-4xl md:px-24 lg:px-8 lg:py-20'>
+      <div className='relative lg:flex md:gap-6 lg:gap-10 px-4 py-4 mx-auto sm:max-w-4xl md:px-24 lg:px-8 lg:py-20'>
          <div className='flex-1 max-w-lg mx-auto'>
             <div className='flex justify-between'>
                <h1 className='text-xl font-semibold'>{heading}</h1>
