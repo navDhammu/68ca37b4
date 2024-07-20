@@ -7,17 +7,32 @@ import {
    PhoneIcon,
    ArchiveBoxIcon,
 } from '@heroicons/react/24/outline';
+import api from '../api.js';
 
-export default function Header() {
+export default function Header({
+   onArchiveAll,
+   onUnarchiveAll,
+   activityFeedCalls,
+   archivedCalls,
+}) {
    const { pathname } = useLocation();
-
+   console.log(pathname);
+   const handleArchiveBtnClick = async () => {
+      if (pathname === '/') {
+         await api.archiveAll(activityFeedCalls);
+         onArchiveAll();
+      } else if (pathname === '/archived') {
+         await api.unarchiveAll(archivedCalls);
+         onUnarchiveAll();
+      }
+   };
    return (
       <header className='h-16 sticky shadow-md flex items-center justify-between px-7 py-2'>
          <AircallLogo />
          <div className='flex'>
             <button
                className='flex gap-1 border-2 justify-center items-centerborder-2 mr-4 p-2 h-4/5 my-auto rounded-full'
-               onClick={() => {}}
+               onClick={handleArchiveBtnClick}
             >
                {pathname === '/' ? (
                   <ArchiveBoxArrowDownIcon className='size-6' />

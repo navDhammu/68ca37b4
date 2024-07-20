@@ -5,21 +5,21 @@ import Header from './Header/index.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CallList from './CallList.jsx';
 import mocks from './mocks.js';
-import api from './api.js';
 
 export default function App() {
    const [allCalls, setAllCalls] = useState([]);
 
+   const activityFeedCalls = allCalls.filter((call) => !call.is_archived);
    const archivedCalls = allCalls.filter((call) => call.is_archived);
 
    useEffect(() => {
       const getAllCalls = async () => {
-         setTimeout(() => setAllCalls(mocks), 200);
-         //  const response = await fetch(
-         //     'https://aircall-backend.onrender.com/activities'
-         //  );
-         //  const data = await response.json();
-         //  setAllCalls(data);
+         //  setTimeout(() => setAllCalls(mocks), 200);
+         const response = await fetch(
+            'https://aircall-backend.onrender.com/activities'
+         );
+         const data = await response.json();
+         setAllCalls(data);
       };
 
       getAllCalls();
@@ -36,7 +36,7 @@ export default function App() {
       );
    };
 
-   const onToggleAllArchive = (archiveStatus) => {
+   const toggleAllCallsArchive = (archiveStatus) => () => {
       setAllCalls(
          allCalls.map((call) => {
             call.is_archived = archiveStatus;
@@ -48,12 +48,17 @@ export default function App() {
    return (
       <>
          <Router>
-            <Header onToggleAllArchive={onToggleAllArchive} />
+            <Header
+               onArchiveAll={toggleAllCallsArchive(true)}
+               onUnarchiveAll={toggleAllCallsArchive(false)}
+               activityFeedCalls={activityFeedCalls}
+               archivedCalls={archivedCalls}
+            />
             <Switch>
                <Route exact path='/'>
                   <CallList
                      heading='All Calls'
-                     callList={allCalls}
+                     callList={activityFeedCalls}
                      toggleCallArchive={toggleCallArchive}
                   />
                </Route>
