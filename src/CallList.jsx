@@ -1,4 +1,5 @@
 import CallListItem from './CallListItem.jsx';
+import EmptyState from './EmptyState.jsx';
 import LoadingSpinner from './LoadingSpinner.jsx';
 
 export default function CallList({
@@ -8,8 +9,7 @@ export default function CallList({
    isLoadingCalls,
 }) {
    if (isLoadingCalls) return <LoadingSpinner />;
-   if (!callList.length)
-      return <div className='text-gray-500 mt-36'> No calls to display</div>;
+   if (!callList.length) return <EmptyState />;
 
    return (
       <ul>
