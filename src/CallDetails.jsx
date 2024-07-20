@@ -72,8 +72,8 @@ export default function CallDetails({
             <Detail label='direction' value={direction} />
             <Detail label='call type' value={call_type} />
             <Detail
-               label='status'
-               value='archived'
+               label='Archive status'
+               value={is_archived ? 'archived' : 'Unarchived'}
                rightSection={
                   <Button
                      disabled={isLoading}
