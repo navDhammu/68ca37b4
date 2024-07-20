@@ -6,7 +6,7 @@ export default function Button({ isLoading, onClick, children, ...rest }) {
          disabled={isLoading}
          onClick={onClick}
          type='button'
-         className='py-2.5 px-6 text-sm flex justify-center items-center gap-1 rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
+         className='py-2.5 px-6 text-sm flex justify-center items-center gap-1 rounded-lg border border-amber-400 text-amber-500 hover:bg-amber-50 hover:text-amber-700 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 '
          {...rest}
       >
          {isLoading && (

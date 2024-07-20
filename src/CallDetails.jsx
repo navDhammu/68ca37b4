@@ -88,8 +88,8 @@ export default function CallDetails({ details, onHideDetails }) {
 
 function Detail({ label, value, rightSection }) {
    return (
-      <div className='flex items-center sm:justify-start'>
-         <div className='h-16 w-1/3 px-3 uppercase text-xs text-gray-400 bg-gray-100 flex justify-end items-center'>
+      <div className='flex items-center sm:justify-start capitalize'>
+         <div className='h-14 w-1/3 px-3 uppercase text-xs text-gray-400 bg-gray-100 flex justify-end items-center'>
             {label}
          </div>
          <span className='px-3'>{value} </span>
