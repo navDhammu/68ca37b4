@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import api from './api.js';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
-import Button from './Button.jsx';
 import notifications from './notifications.js';
+import ArchiveBtn from './ArchiveBtn.jsx';
 
 export function formatSeconds(seconds) {
    const minutes = Math.floor(seconds / 60);
@@ -76,13 +76,12 @@ export default function CallDetails({
                label='Archive status'
                value={is_archived ? 'archived' : 'Unarchived'}
                rightSection={
-                  <Button
+                  <ArchiveBtn
+                     isUnarchive={is_archived}
                      disabled={isLoading}
                      isLoading={isLoading}
                      onClick={handleArchiveBtnClick}
-                  >
-                     {is_archived ? 'unarchive call' : 'archive call'}
-                  </Button>
+                  />
                }
             />
          </div>

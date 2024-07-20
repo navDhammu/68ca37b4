@@ -4,10 +4,14 @@ import ReactDOM from 'react-dom';
 import Header from './Header/index.jsx';
 import api from './api.js';
 import Calls from './Calls.jsx';
-import Button from './Button.jsx';
+import Button from './ArchiveBtn.jsx';
 import { Toaster } from 'react-hot-toast';
 import notifications from './notifications.js';
-import LoadingSpinner from './LoadingSpinner.jsx';
+import {
+   ArchiveBoxArrowDownIcon,
+   ArchiveBoxIcon,
+} from '@heroicons/react/24/outline';
+import ArchiveBtn from './ArchiveBtn.jsx';
 
 export default function App() {
    const [selectedTab, setSelectedTab] = useState('activity-feed');
@@ -94,13 +98,12 @@ export default function App() {
                onToggleArchiveStatus={onToggleArchiveStatus}
                headerBtn={
                   activityFeedCalls.length ? (
-                     <Button
+                     <ArchiveBtn
                         isLoading={isPendingArchive}
                         disabled={isPendingArchive}
                         onClick={handleArchiveAll}
-                     >
-                        Archive all
-                     </Button>
+                        isAll
+                     />
                   ) : null
                }
             />
@@ -111,13 +114,13 @@ export default function App() {
                onToggleArchiveStatus={onToggleArchiveStatus}
                headerBtn={
                   archivedCalls.length ? (
-                     <Button
+                     <ArchiveBtn
                         isLoading={isPendingArchive}
                         disabled={isPendingArchive}
                         onClick={handleUnarchiveAll}
-                     >
-                        Unarchive all
-                     </Button>
+                        isAll
+                        isUnarchive
+                     />
                   ) : null
                }
             />
@@ -132,4 +135,5 @@ export default function App() {
       </>
    );
 }
+
 ReactDOM.render(<App />, document.getElementById('app'));

@@ -11,8 +11,6 @@ export default function Calls({
 }) {
    const [selectedCallId, setSelectedCallId] = useState(null);
    const selectedCall = callList.find((call) => call.id === selectedCallId);
-   const hideDetails = () => setSelectedCallId(null);
-   const selectCall = (id) => setSelectedCallId(id);
 
    return (
       <div className='relative lg:flex md:gap-6 lg:gap-10 px-4 py-4 mx-auto sm:max-w-4xl md:px-24 lg:px-8 lg:py-20'>
@@ -22,7 +20,7 @@ export default function Calls({
                {headerBtn}
             </div>
             <CallList
-               selectCall={selectCall}
+               onSelectCall={(id) => setSelectedCallId(id)}
                selectedCallId={selectedCallId}
                callList={callList}
                isLoadingCalls={isLoadingCalls}
@@ -30,7 +28,7 @@ export default function Calls({
          </div>
          <CallDetails
             details={selectedCall}
-            onHideDetails={hideDetails}
+            onHideDetails={() => setSelectedCallId(null)}
             onToggleArchiveStatus={onToggleArchiveStatus}
          />
       </div>

@@ -1,20 +1,34 @@
+import { ArchiveBoxArrowDownIcon } from '@heroicons/react/24/outline';
+import { ArchiveBoxIcon } from '@heroicons/react/24/outline';
+
 import React from 'react';
 
-export default function CallListHeaderBtn({
+export default function ArchiveBtn({
+   isUnarchive = false,
+   isAll = false,
    isLoading,
    onClick,
    children,
    ...rest
 }) {
+   const icon = isUnarchive ? (
+      <ArchiveBoxIcon className='size-5' />
+   ) : (
+      <ArchiveBoxArrowDownIcon className='size-5' />
+   );
+   const text = isUnarchive
+      ? 'Unarchive' + (isAll ? ' all calls' : '')
+      : 'Archive' + (isAll ? ' all calls' : '');
+
    return (
       <button
          disabled={isLoading}
          onClick={onClick}
          type='button'
-         className='py-2.5 px-6 text-sm rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
+         className='py-2.5 px-6 text-sm flex justify-center items-center gap-1 rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
          {...rest}
       >
-         {isLoading && (
+         {isLoading ? (
             <svg
                aria-hidden='true'
                role='status'
@@ -32,8 +46,10 @@ export default function CallListHeaderBtn({
                   fill='#1C64F2'
                />
             </svg>
+         ) : (
+            icon
          )}
-         {children}
+         {children ?? text}
       </button>
    );
 }
