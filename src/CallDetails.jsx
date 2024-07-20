@@ -38,6 +38,7 @@ export default function CallDetails({
          await api.toggleArchiveStatus(details);
          onToggleArchiveStatus(details);
          setIsLoading(false);
+         onHideDetails();
          details.is_archived
             ? notifications.success.archive()
             : notifications.success.unarchive();
