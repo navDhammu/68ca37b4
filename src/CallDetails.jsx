@@ -9,7 +9,11 @@ function formatSeconds(seconds) {
    return formattedMinutes + formattedSeconds;
 }
 
-export default function CallDetails({ details, hideIconBtn, onArchive }) {
+export default function CallDetails({
+   details,
+   hideIconBtn,
+   toggleCallArchive,
+}) {
    if (!details) return null;
 
    const {
@@ -26,7 +30,7 @@ export default function CallDetails({ details, hideIconBtn, onArchive }) {
 
    const handleArchive = async () => {
       const response = await api.changeArchiveStatus(id, !is_archived);
-      if (response.ok) onArchive(details);
+      if (response.ok) toggleCallArchive(details);
    };
 
    return (

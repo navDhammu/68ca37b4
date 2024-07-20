@@ -3,10 +3,11 @@ import CallListItem from './CallListItem.jsx';
 import CallDetails from './CallDetails.jsx';
 import useWindowWidth from './useWindowWidth.js';
 import { ArrowLeftCircleIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import api from './api.js';
 
 const BREAKPOINT_WIDTH = 640;
 
-export default function CallList({ callList, heading, onArchive }) {
+export default function CallList({ callList, heading, toggleCallArchive }) {
    const [selectedCallId, setSelectedCallId] = useState(null);
    const windowWidth = useWindowWidth();
    const selectedCall = callList.find((call) => call.id === selectedCallId);
@@ -15,7 +16,7 @@ export default function CallList({ callList, heading, onArchive }) {
    return selectedCall && windowWidth < BREAKPOINT_WIDTH ? (
       <CallDetails
          details={selectedCall}
-         onArchive={onArchive}
+         toggleCallArchive={toggleCallArchive}
          hideIconBtn={
             <button onClick={hideDetails}>
                <ArrowLeftCircleIcon className='size-6' />
@@ -39,7 +40,7 @@ export default function CallList({ callList, heading, onArchive }) {
          </div>
          <CallDetails
             details={selectedCall}
-            onArchive={onArchive}
+            toggleCallArchive={toggleCallArchive}
             hideIconBtn={
                <button onClick={hideDetails}>
                   <EyeSlashIcon className='size-6' />
