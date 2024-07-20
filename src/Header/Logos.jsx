@@ -65,7 +65,7 @@ export function AircallLogo(params) {
 export function GithubLogo() {
    return (
       <a
-         className='flex justify-center items-center gap-1'
+         className='flex justify-center items-center gap-1 border-l-2 pl-2'
          href='https://github.com/navDhammu/68ca37b4'
          target='_blank'
       >

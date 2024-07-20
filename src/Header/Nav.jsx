@@ -3,12 +3,12 @@ export default function Nav({ links }) {
    const { pathname } = useLocation();
 
    return (
-      <nav className='font-semibold text-lg text-gray-800'>
+      <nav className='font-semibold text-md text-gray-700'>
          <ul className='flex items-center'>
             {links.map((link) => (
                <li
                   key={link.to}
-                  className={`px-1 md:px-4 border-b-2 border-green-400 ${
+                  className={`px-1 md:px-4 border-b-4 border-green-400 ${
                      pathname === link.to
                         ? 'text-green-500'
                         : 'border-opacity-0'
@@ -16,7 +16,7 @@ export default function Nav({ links }) {
                >
                   <NavLink
                      to={link.to}
-                     className={'py-4 flex gap-1 items-center'}
+                     className={'py-5 flex gap-1 items-center'}
                   >
                      {link.icon}
                      <span className='hidden sm:block'>{link.name}</span>
