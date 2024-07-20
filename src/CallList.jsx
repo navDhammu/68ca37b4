@@ -32,16 +32,20 @@ export default function CallList({
       <div className='flex justify-center md:container mx-auto max-w-xl my-4 gap-8'>
          <div>
             <h1 className='text-xl text-center'>{heading}</h1>
-            <ul>
-               {callList.map((details) => (
-                  <CallListItem
-                     key={details.id}
-                     details={details}
-                     isSelected={selectedCallId === details.id}
-                     selectCall={() => setSelectedCallId(details.id)}
-                  />
-               ))}
-            </ul>
+            {callList.length ? (
+               <ul>
+                  {callList.map((details) => (
+                     <CallListItem
+                        key={details.id}
+                        details={details}
+                        isSelected={selectedCallId === details.id}
+                        selectCall={() => setSelectedCallId(details.id)}
+                     />
+                  ))}
+               </ul>
+            ) : (
+               <div className='text-gray-500 mt-36'> No calls to display</div>
+            )}
          </div>
          <CallDetails
             details={selectedCall}
