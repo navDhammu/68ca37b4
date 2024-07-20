@@ -1,16 +1,18 @@
 export default {
-   async getAllCalls() {
-      const response = await fetch(
-         `https://aircall-backend.onrender.com/activities`
-      );
+   fetcher: async (...args) => {
+      const response = await fetch(...args);
       if (!response.ok) throw new Error();
-      return response.json();
+      return response;
    },
-
+   async getAllCalls() {
+      return (
+         await this.fetcher(`https://aircall-backend.onrender.com/activities`)
+      ).json();
+   },
    // change the archive status of an individual call
-   changeArchiveStatus: async (callId, status) => {
+   async changeArchiveStatus(callId, status) {
       const body = JSON.stringify({ is_archived: status });
-      return fetch(
+      return this.fetcher(
          `https://aircall-backend.onrender.com/activities/${callId}`,
          {
             headers: {
@@ -24,7 +26,6 @@ export default {
    toggleArchiveStatus(call) {
       return this.changeArchiveStatus(call.id, !call.is_archived);
    },
-
    archiveMultipleCalls(calls) {
       return Promise.all(
          calls.map((call) => this.changeArchiveStatus(call.id, true))
