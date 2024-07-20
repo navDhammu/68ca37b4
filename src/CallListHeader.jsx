@@ -3,16 +3,16 @@ import React from 'react';
 
 export default function CallListHeader({
    heading,
-   headerBtn,
    sortByDate,
    onSortByDateChange,
    onSearchInput,
+   archiveBtn,
 }) {
    return (
       <>
          <div className='flex justify-between'>
             <h1 className='text-xl font-semibold'>{heading}</h1>
-            {headerBtn}
+            {archiveBtn}
          </div>
          <div className='mt-4 relative w-full'>
             <div className='absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none'>

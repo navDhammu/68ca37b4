@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import api from './api.js';
 import { ChevronLeftIcon } from '@heroicons/react/24/outline';
 import notifications from './notifications.js';
-import ArchiveBtn from './ArchiveBtn.jsx';
+import Button from './Button.jsx';
+import { useCallsDispatch } from './contexts.js';
 
 export function formatSeconds(seconds) {
    const minutes = Math.floor(seconds / 60);
@@ -12,13 +13,7 @@ export function formatSeconds(seconds) {
    return formattedMinutes + formattedSeconds;
 }
 
-export default function CallDetails({
-   details,
-   onHideDetails,
-   onToggleArchiveStatus,
-}) {
-   if (!details) return null;
-
+export default function CallDetails({ details, onHideDetails }) {
    const {
       direction,
       from,
@@ -31,19 +26,20 @@ export default function CallDetails({
    } = details;
 
    const [isLoading, setIsLoading] = useState(false);
+   const dispatch = useCallsDispatch();
 
-   const handleArchiveBtnClick = async () => {
+   const toggleArchiveStatus = async () => {
       try {
          setIsLoading(true);
          await api.toggleArchiveStatus(details);
-         onToggleArchiveStatus(details);
-         setIsLoading(false);
-         onHideDetails();
+         dispatch({ type: 'toggle_archive', call: details });
          details.is_archived
             ? notifications.success.archive()
             : notifications.success.unarchive();
-      } catch (error) {
+      } catch {
          notifications.error();
+      } finally {
+         setIsLoading(false);
       }
    };
 
@@ -76,12 +72,13 @@ export default function CallDetails({
                label='Archive status'
                value={is_archived ? 'archived' : 'Unarchived'}
                rightSection={
-                  <ArchiveBtn
-                     isUnarchive={is_archived}
-                     disabled={isLoading}
+                  <Button
+                     onClick={toggleArchiveStatus}
                      isLoading={isLoading}
-                     onClick={handleArchiveBtnClick}
-                  />
+                     disabled={isLoading}
+                  >
+                     {is_archived ? 'Unarchive' : 'Archive'}
+                  </Button>
                }
             />
          </div>

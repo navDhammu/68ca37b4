@@ -1,25 +1,6 @@
-import { ArchiveBoxArrowDownIcon } from '@heroicons/react/24/outline';
-import { ArchiveBoxIcon } from '@heroicons/react/24/outline';
-
 import React from 'react';
 
-export default function ArchiveBtn({
-   isUnarchive = false,
-   isAll = false,
-   isLoading,
-   onClick,
-   children,
-   ...rest
-}) {
-   const icon = isUnarchive ? (
-      <ArchiveBoxIcon className='size-5' />
-   ) : (
-      <ArchiveBoxArrowDownIcon className='size-5' />
-   );
-   const text = isUnarchive
-      ? 'Unarchive' + (isAll ? ' all calls' : '')
-      : 'Archive' + (isAll ? ' all calls' : '');
-
+export default function Button({ isLoading, onClick, children, ...rest }) {
    return (
       <button
          disabled={isLoading}
@@ -28,7 +9,7 @@ export default function ArchiveBtn({
          className='py-2.5 px-6 text-sm flex justify-center items-center gap-1 rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
          {...rest}
       >
-         {isLoading ? (
+         {isLoading && (
             <svg
                aria-hidden='true'
                role='status'
@@ -46,10 +27,8 @@ export default function ArchiveBtn({
                   fill='#1C64F2'
                />
             </svg>
-         ) : (
-            icon
          )}
-         {children ?? text}
+         {children}
       </button>
    );
 }

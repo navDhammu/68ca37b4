@@ -1,13 +1,10 @@
 import CallListItem from './CallListItem.jsx';
 import EmptyState from './EmptyState.jsx';
 import LoadingSpinner from './LoadingSpinner.jsx';
+import { useCalls } from './contexts.js';
 
-export default function CallList({
-   callList,
-   selectedCallId,
-   onSelectCall,
-   isLoadingCalls,
-}) {
+export default function CallList({ callList, selectedCallId, onSelectCall }) {
+   const { isLoadingCalls } = useCalls();
    if (isLoadingCalls) return <LoadingSpinner />;
    if (!callList.length) return <EmptyState />;
 
