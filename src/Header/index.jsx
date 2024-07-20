@@ -1,62 +1,32 @@
 import React from 'react';
-import { AircallLogo, GithubLogo } from './Logos.jsx';
-import Nav from './Nav.jsx';
-import { useLocation } from 'react-router-dom';
-import {
-   ArchiveBoxArrowDownIcon,
-   PhoneIcon,
-   ArchiveBoxIcon,
-} from '@heroicons/react/24/outline';
-import api from '../api.js';
+import { PhoneIcon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
 
-export default function Header({
-   onArchiveAll,
-   onUnarchiveAll,
-   activityFeedCalls,
-   archivedCalls,
-}) {
-   const { pathname } = useLocation();
-
-   const handleArchiveBtnClick = async () => {
-      if (pathname === '/') {
-         await api.archiveMultipleCalls(activityFeedCalls);
-         onArchiveAll();
-      } else if (pathname === '/archived') {
-         await api.unarchiveMultipleCalls(archivedCalls);
-         onUnarchiveAll();
-      }
-   };
+export default function Header({ activityFeedCalls, archivedCalls }) {
    return (
-      <header className='h-16 sticky shadow-md flex items-center justify-between px-7 py-2'>
-         <AircallLogo />
-         <div className='flex'>
-            <button
-               className='flex gap-1 border-2 justify-center items-centerborder-2 mr-4 p-2 h-4/5 my-auto rounded-full'
-               onClick={handleArchiveBtnClick}
-            >
-               {pathname === '/' ? (
-                  <ArchiveBoxArrowDownIcon className='size-6' />
-               ) : (
-                  <ArchiveBoxIcon className='size-6' />
-               )}
-               {pathname === '/' ? 'Archive All' : 'Unarachive All'}
-            </button>
-            <Nav
-               links={[
-                  {
-                     to: '/',
-                     name: 'All Calls',
-                     icon: <PhoneIcon className='size-5' />,
-                  },
-                  {
-                     to: '/archived',
-                     name: 'Archived Calls',
-                     icon: <ArchiveBoxIcon className='size-5' />,
-                  },
-               ]}
-            />
-
-            <GithubLogo />
+      <header class='bg-gray-700'>
+         <div class='container mx-auto py-4 flex justify-between items-center'>
+            <div className='flex gap-2 items-end'>
+               <h1 class='text-2xl font-bold text-gray-50'>Aircall</h1>
+               <span className='text-xs text-gray-100 uppercase italic'>
+                  front end assessment
+               </span>
+            </div>
+            <div class='flex space-x-10'>
+               <button class='flex items-center space-x-2 hover:bg-black/40 px-4 py-2 rounded-lg'>
+                  <PhoneIcon className='size-6 text-green-500' />
+                  <span class='text-gray-50'>Activity Feed</span>
+                  <span class='inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-green-800 bg-green-200 rounded-full'>
+                     {activityFeedCalls.length}
+                  </span>
+               </button>
+               <button class='flex items-center space-x-2 hover:bg-black/40 px-4 py-2 rounded-lg'>
+                  <ArchiveBoxIcon className='size-6 text-green-500' />
+                  <span class='text-gray-50'>Archived Calls</span>
+                  <span class='inline-flex items-center justify-center w-4 h-4 ml-2 text-xs font-semibold text-green-800 bg-green-200 rounded-full'>
+                     {archivedCalls.length}
+                  </span>
+               </button>
+            </div>
          </div>
       </header>
    );
