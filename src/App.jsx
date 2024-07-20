@@ -2,42 +2,38 @@ import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 import Header from './Header/index.jsx';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-import CallList from './CallList.jsx';
+import api from './api.js';
+import Calls from './Calls.jsx';
 
 export default function App() {
+   const [selectedTab, setSelectedTab] = useState('activity-feed');
    const [allCalls, setAllCalls] = useState([]);
 
    const activityFeedCalls = allCalls.filter((call) => !call.is_archived);
    const archivedCalls = allCalls.filter((call) => call.is_archived);
 
    useEffect(() => {
-      const getAllCalls = async () => {
-         const response = await fetch(
-            'https://aircall-backend.onrender.com/activities'
-         );
-         const data = await response.json();
-         setAllCalls(data);
-      };
-
-      getAllCalls();
+      (async function () {
+         const calls = await api.getAllCalls();
+         setAllCalls(calls);
+      })();
    }, []);
 
-   const changeCallArchiveStatus = (call, status) => {
+   const onToggleArchiveStatus = (call) => {
       setAllCalls(
          allCalls.map((prevCall) => {
             if (prevCall.id === call.id) {
-               prevCall.is_archived = status;
+               prevCall.is_archived = !call.is_archived;
             }
             return prevCall;
          })
       );
    };
 
-   const archiveSingleCall = (call) => changeCallArchiveStatus(call, true);
-   const unarchiveSingleCall = (call) => changeCallArchiveStatus(call, false);
+   const onSelectTab = (tab) => setSelectedTab(tab);
 
-   const archiveAllCalls = () => {
+   const handleArchiveAll = async () => {
+      await api.archiveMultipleCalls(activityFeedCalls);
       setAllCalls(
          allCalls.map((call) => {
             call.is_archived = true;
@@ -45,8 +41,8 @@ export default function App() {
          })
       );
    };
-
-   const unarchiveAllCalls = () => {
+   const handleUnarchiveAll = async () => {
+      await api.unarchiveMultipleCalls(archivedCalls);
       setAllCalls(
          allCalls.map((call) => {
             call.is_archived = false;
@@ -57,34 +53,48 @@ export default function App() {
 
    return (
       <>
-         <Router>
-            <Header
-               onArchiveAll={archiveAllCalls}
-               onUnarchiveAll={unarchiveAllCalls}
-               activityFeedCalls={activityFeedCalls}
-               archivedCalls={archivedCalls}
+         <Header
+            selectedTab={selectedTab}
+            onSelectTab={onSelectTab}
+            activityFeedCalls={activityFeedCalls}
+            archivedCalls={archivedCalls}
+         />
+         {selectedTab === 'activity-feed' ? (
+            <Calls
+               heading='Activity Feed'
+               callList={activityFeedCalls}
+               onToggleArchiveStatus={onToggleArchiveStatus}
+               headerBtn={
+                  activityFeedCalls.length ? (
+                     <button
+                        onClick={handleArchiveAll}
+                        type='button'
+                        class='py-2.5 px-6 text-sm rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
+                     >
+                        Archive all
+                     </button>
+                  ) : null
+               }
             />
-            <Switch>
-               <Route exact path='/'>
-                  <CallList
-                     heading='All Calls'
-                     callList={activityFeedCalls}
-                     onArchiveCall={archiveSingleCall}
-                     onUnarchiveCall={unarchiveSingleCall}
-                  />
-               </Route>
-               <Route path='/archived'>
-                  <CallList
-                     heading='Archived Calls'
-                     callList={archivedCalls}
-                     onArchiveCall={archiveSingleCall}
-                     onUnarchiveCall={unarchiveSingleCall}
-                  />
-               </Route>
-            </Switch>
-         </Router>
+         ) : (
+            <Calls
+               heading='Archived Calls'
+               callList={archivedCalls}
+               onToggleArchiveStatus={onToggleArchiveStatus}
+               headerBtn={
+                  archivedCalls.length ? (
+                     <button
+                        onClick={handleUnarchiveAll}
+                        type='button'
+                        class='py-2.5 px-6 text-sm rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
+                     >
+                        Unarchive all
+                     </button>
+                  ) : null
+               }
+            />
+         )}
       </>
    );
 }
-
 ReactDOM.render(<App />, document.getElementById('app'));

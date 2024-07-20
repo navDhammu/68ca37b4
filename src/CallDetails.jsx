@@ -13,8 +13,7 @@ export function formatSeconds(seconds) {
 export default function CallDetails({
    details,
    onHideDetails,
-   onArchiveCall,
-   onUnarchiveCall,
+   onToggleArchiveStatus,
 }) {
    if (!details) return null;
 
@@ -30,13 +29,8 @@ export default function CallDetails({
    } = details;
 
    const handleArchiveBtnClick = async () => {
-      if (is_archived) {
-         await api.unarchiveSingleCall(details);
-         onUnarchiveCall(details);
-      } else {
-         await api.archiveSingleCall(details);
-         onArchiveCall(details);
-      }
+      await api.toggleArchiveStatus(details);
+      onToggleArchiveStatus(details);
    };
 
    return (

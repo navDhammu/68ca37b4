@@ -3,10 +3,10 @@ import CallDetails from './CallDetails.jsx';
 import CallList from './CallList.jsx';
 
 export default function Calls({
-   callList,
    heading,
-   onArchiveCall,
-   onUnarchiveCall,
+   headerBtn,
+   callList,
+   onToggleArchiveStatus,
 }) {
    const [selectedCallId, setSelectedCallId] = useState(null);
    const selectedCall = callList.find((call) => call.id === selectedCallId);
@@ -18,12 +18,7 @@ export default function Calls({
          <div className='flex-1 max-w-lg mx-auto'>
             <div className='flex justify-between'>
                <h1 className='text-xl font-semibold'>{heading}</h1>
-               <button
-                  type='button'
-                  class='py-2.5 px-6 text-sm rounded-lg bg-white border border-amber-300  text-amber-500 cursor-pointer font-semibold text-center shadow-xs transition-all duration-500 hover:bg-amber-50 hover:text-amber-700'
-               >
-                  Archive all
-               </button>
+               {headerBtn}
             </div>
             <CallList
                selectCall={selectCall}
@@ -34,8 +29,7 @@ export default function Calls({
          <CallDetails
             details={selectedCall}
             onHideDetails={hideDetails}
-            onArchiveCall={onArchiveCall}
-            onUnarchiveCall={onUnarchiveCall}
+            onToggleArchiveStatus={onToggleArchiveStatus}
          />
       </div>
    );
