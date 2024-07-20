@@ -4,7 +4,6 @@ import ReactDOM from 'react-dom';
 import Header from './Header/index.jsx';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import CallList from './CallList.jsx';
-import mocks from './mocks.js';
 
 export default function App() {
    const [allCalls, setAllCalls] = useState([]);
@@ -14,7 +13,6 @@ export default function App() {
 
    useEffect(() => {
       const getAllCalls = async () => {
-         //  setTimeout(() => setAllCalls(mocks), 200);
          const response = await fetch(
             'https://aircall-backend.onrender.com/activities'
          );
